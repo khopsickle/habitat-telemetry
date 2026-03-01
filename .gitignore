@@ -1,0 +1,35 @@
+# API - backend
+api/__pycache__/
+api/*.pyc
+api/*.pyo
+api/*.pyd
+api/env/
+api/venv/
+api/*.sqlite3
+api/*.log
+api/*.env
+
+# APP - frontend
+app/node_modules/
+app/dist/
+app/build/
+app/.vite/
+app/npm-debug.log*
+app/yarn-debug.log*
+app/yarn-error.log*
+app/.env
+
+# DOCKER
+docker-compose.override.yml
+*.dockerfile
+*.dockerignore
+**/Dockerfile
+**/docker-compose.override.yml
+**/docker-compose.*.yml
+**/docker-compose.override.yml
+.docker/
+docker-volume-*
+docker-image-*
+
+# OTHER
+.DS_Store
