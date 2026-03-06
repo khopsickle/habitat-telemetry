@@ -10,6 +10,7 @@ function App() {
       <h1 className="text-2xl font-bold mb-4">Assets</h1>
       <AssetList onSelect={setSelectedAsset} />
 
+      {/* telemetry panel */}
       {selectedAsset && (
         <div>
           Selected asset: <strong>{selectedAsset.name}</strong>

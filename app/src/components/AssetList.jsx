@@ -1,5 +1,5 @@
 import { useAssets } from "../hooks/useAssets";
-import { getStatusColor } from "../services/statusHelpers";
+import { getStatusClass } from "../services/statusHelpers";
 
 export default function AssetList({ onSelect }) {
   const { data: assets, isLoading, error } = useAssets();
@@ -25,7 +25,7 @@ export default function AssetList({ onSelect }) {
           <div
             key={asset.id}
             onClick={() => onSelect(asset)}
-            className={`grid grid-cols-5 my-2 p-4 border border-l-3 rounded-e-lg border-gray-200 border-l-${getStatusColor(asset.status)} cursor-pointer hover:bg-gray-50`}
+            className={`grid grid-cols-5 my-2 p-4 border border-l-3 rounded-e-lg ${getStatusClass(asset.status, "border")} cursor-pointer hover:bg-gray-50`}
           >
             <div>
               <p className="font-bold">{asset.name}</p>
@@ -34,7 +34,7 @@ export default function AssetList({ onSelect }) {
             <div>{asset.type}</div>
             <div>{asset.location}</div>
             <div
-              className={`font-semibold text-${getStatusColor(asset.status)}`}
+              className={`font-semibold ${getStatusClass(asset.status, "text")}`}
             >
               {asset.status}
             </div>
