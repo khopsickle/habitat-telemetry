@@ -1,20 +1,21 @@
 import { api } from "../http/client";
 import { sanitizeAssets } from "./sanitizeData";
+import { sanitizeTelemetry } from "./sanitizeData";
 
 export async function getAssets() {
   const { data } = await api.get("/assets");
   return sanitizeAssets(data);
 }
 
-export async function getAsset(assetId) {
-  const { data } = await api.get(`/assets/${assetId}`);
-  return data;
-}
+// export async function getAsset(assetId) {
+//   const { data } = await api.get(`/assets/${assetId}`);
+//   return data;
+// }
 
-export async function getTelemetry(assetId) {
+export const getTelemetry = async (assetId) => {
   const { data } = await api.get(`/telemetry/${assetId}`);
-  return data;
-}
+  return sanitizeTelemetry(data);
+};
 
 export async function getPowerData(assetId) {
   const { data } = await api.get(`/power/${assetId}`);

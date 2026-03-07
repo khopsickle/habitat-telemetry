@@ -11,9 +11,18 @@ function App() {
       <h1 className="text-2xl font-bold mb-4">Assets</h1>
 
       <div className="flex gap-4">
-        <AssetList onSelect={setSelectedAsset} selected={selectedAsset} />
+        <AssetList onSelect={setSelectedAsset} hasSelected={!!selectedAsset} />
 
-        {selectedAsset && <TelemetryPanel asset={selectedAsset} />}
+        {selectedAsset && (
+          <div
+            className={`fixed inset-0 z-50 bg-white p-4 overflow-y-auto sm:relative sm:p-0`}
+          >
+            <TelemetryPanel
+              asset={selectedAsset}
+              onClose={() => setSelectedAsset(null)}
+            />
+          </div>
+        )}
       </div>
     </>
   );

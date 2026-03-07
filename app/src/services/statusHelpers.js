@@ -4,8 +4,8 @@ export const statusClasses = {
     border: "border-green-600",
   },
   maintenance: {
-    text: "text-yellow-500",
-    border: "border-yellow-500",
+    text: "text-amber-500",
+    border: "border-amber-500",
   },
   standby: {
     text: "text-gray-400",
