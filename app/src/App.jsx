@@ -15,7 +15,7 @@ function App() {
 
         {selectedAsset && (
           <div
-            className={`fixed inset-0 z-50 bg-white p-4 overflow-y-auto sm:relative sm:p-0`}
+            className={`fixed inset-0 z-1 bg-white p-4 overflow-y-auto grow xl:relative xl:p-0`}
           >
             <TelemetryPanel
               asset={selectedAsset}

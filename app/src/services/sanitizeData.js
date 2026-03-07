@@ -23,6 +23,42 @@ export function sanitizeTelemetry(data) {
     vibration: `${data.vibration.toFixed(3)} mm/s`, // assuming mm/s
     powerConsumption: `${data.power_consumption.toFixed(2)} kW`, // assuming kW
     status: data.status,
-    timestamp: new Date(data.timestamp).toLocaleTimeString(),
+    localeTimestamp: new Date(data.timestamp).toLocaleTimeString(),
+  };
+}
+
+function mapTimeSeries(arr, type) {
+  // assumes chronological order from API
+  return (arr || []).map((item) => ({
+    timestamp: new Date(item.timestamp).getTime(),
+    historicalPower: type === "historical" ? item.power_kw : null,
+    forecastPower: type === "forecast" ? item.power_kw : null,
+    efficiency: item.efficiency,
+    type,
+    powerDisplay: `${item.power_kw.toFixed(2)}`,
+    efficiencyDisplay: `${Math.round(item.efficiency)}%`,
+  }));
+}
+
+export function sanitizePowerHistory(raw) {
+  const history = mapTimeSeries(raw.history, "historical");
+  const forecast = mapTimeSeries(raw.forecast, "forecast");
+
+  // assumes no overlap from API
+  const chartData = [...history, ...forecast];
+
+  const metadata = {
+    unit: raw.metadata.unit,
+    isGenerator: raw.metadata.is_generator,
+    minPower: raw.metadata.min_power_kw,
+    maxPower: raw.metadata.peak_power_kw,
+  };
+
+  return {
+    assetId: raw.asset_id,
+    name: raw.asset_name,
+    type: raw.asset_type,
+    metadata,
+    chartData,
   };
 }

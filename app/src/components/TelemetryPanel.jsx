@@ -1,29 +1,46 @@
 import { useTelemetry } from "../hooks/useTelemetry";
+import { usePowerHistory } from "../hooks/usePowerHistory";
 import { getStatusClass } from "../services/statusHelpers";
+import PowerHistoryChart from "./PowerHistoryChart";
 
 const TelemetryPanel = ({ asset, onClose }) => {
   const { id, name, status } = asset || {};
-  const { data, isLoading, error } = useTelemetry(id);
-  const borderColor = getStatusClass(asset.status, "border");
-  const textColor = getStatusClass(asset.status, "text");
+  const {
+    data: telemetryData,
+    isLoading: isTelemetryLoading,
+    error: telemetryError,
+  } = useTelemetry(id);
+  const {
+    data: powerData,
+    isLoading: isPowerLoading,
+    error: powerError,
+  } = usePowerHistory(id);
+
+  const isLoading = isTelemetryLoading;
+  const error = telemetryError;
 
   if (!id)
     return <p className="text-gray-500">Select an asset to view telemetry.</p>;
   if (isLoading) return <p>Loading telemetry...</p>;
   if (error) return <p className="text-red-500">Failed to load telemetry.</p>;
+
+  const borderColor = getStatusClass(asset.status, "border");
+  const textColor = getStatusClass(asset.status, "text");
+
   const metrics = [
-    { label: "Temperature", value: data.temperature },
-    { label: "Pressure", value: data.pressure },
-    { label: "Vibration", value: data.vibration },
-    { label: "Power Consumption", value: data.powerConsumption },
+    { label: "Temperature", value: telemetryData.temperature },
+    { label: "Pressure", value: telemetryData.pressure },
+    { label: "Vibration", value: telemetryData.vibration },
+    { label: "Power Consumption", value: telemetryData.powerConsumption },
   ];
+
   return (
     <div
       className={`border ${borderColor} rounded-lg shadow-lg p-4 w-full max-h-full overflow-y-auto transition-all duration-300 ease-in-out`}
     >
       <button
         onClick={onClose}
-        className="absolute top-6 right-8 text-gray-400 sm:hidden"
+        className="absolute top-6 right-8 text-gray-400 xl:hidden"
       >
         ✕
       </button>
@@ -45,9 +62,15 @@ const TelemetryPanel = ({ asset, onClose }) => {
           </div>
         ))}
       </div>
+      {powerData && (
+        <PowerHistoryChart
+          metadata={powerData.metadata}
+          chartData={powerData.chartData}
+        />
+      )}
 
       <p className="text-sm text-gray-500 mt-2">
-        Last updated: {data.timestamp}
+        Last updated: {telemetryData.localeTimestamp}
       </p>
     </div>
   );

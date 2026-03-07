@@ -10,7 +10,7 @@ export default function AssetList({ onSelect, hasSelected }) {
 
   return (
     <div
-      className={`overflow-x-auto transition-all duration-300 ease-in-out ${hasSelected ? "flex-shrink-0" : "w-full"}`}
+      className={`overflow-x-auto transition-all duration-300 ease-in-out ${hasSelected ? "shrink-0" : "w-full"}`}
     >
       {/* header */}
       <div className="hidden lg:grid lg:grid-cols-4 rounded border border-gray-200 bg-gray-50 font-semibold text-gray-700 p-3">
